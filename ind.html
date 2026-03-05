@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIBES | Premium Music Experience</title>
+    <meta name="description" content="SAREGAMA VIBES is a beautiful, premium music streaming platform with modern design.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="logo">
+                <i class="fa-solid fa-wave-square"></i>
+                <span>SAREGAMA VIBES</span>
+            </div>
+
+            <nav class="main-nav">
+                <h3>Menu</h3>
+                <ul>
+                    <li class="nav-item active" data-target="home"><i class="fa-solid fa-house"></i> Home</li>
+                    <li class="nav-item" data-target="search"><i class="fa-solid fa-magnifying-glass"></i> Discover</li>
+                    <li class="nav-item" data-target="artists"><i class="fa-solid fa-microphone"></i> Artists</li>
+                </ul>
+
+                <h3 class="draggable-section">
+                    <i class="fa-solid fa-grip-vertical drag-handle"></i>
+                    Top Charts
+                </h3>
+                <ul>
+                    <li class="nav-item" data-target="chart-telugu"><i class="fa-solid fa-arrow-trend-up"></i> Top 100
+                        Telugu</li>
+                    <li class="nav-item" data-target="chart-hindi"><i class="fa-solid fa-arrow-trend-up"></i> Top 100
+                        Hindi</li>
+                    <li class="nav-item" data-target="chart-tamil"><i class="fa-solid fa-arrow-trend-up"></i> Top 100
+                        Tamil</li>
+                    <li class="nav-item" data-target="chart-english"><i class="fa-solid fa-arrow-trend-up"></i> Top 100
+                        English</li>
+                </ul>
+
+                <h3>Library</h3>
+                <ul>
+                    <li class="nav-item" data-target="recent"><i class="fa-solid fa-clock-rotate-left"></i> Recent</li>
+                    <li class="nav-item" data-target="playlists"><i class="fa-solid fa-list-ul"></i> My Playlists</li>
+                    <li class="nav-item" data-target="liked-songs"><i class="fa-solid fa-heart"></i> Liked Songs</li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-bottom" id="sidebar-bottom" style="display: none;">
+                <div class="user-profile" id="user-profile-btn" onclick="openProfileModal()">
+                    <div class="avatar" id="user-avatar">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+                    <span id="user-name">Profile</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="flex-grow: 1;"></div>
+                <div class="header-actions">
+                    <button class="icon-btn glass-panel"><i class="fa-regular fa-bell"></i></button>
+                    <button class="btn-primary">Upgrade</button>
+                </div>
+            </header>
+
+            <!-- VIEWS -->
+
+            <!-- HOME VIEW -->
+            <div id="view-home" class="view-section active">
+                <div class="hero-section"
+                    style="background-image: url('https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'); background-size: cover; background-position: center;">
+                    <div class="hero-content">
+                        <span class="tag">Trending Now</span>
+                        <h1 id="hero-title">Husn</h1>
+                        <p id="hero-artist">Anuv Jain</p>
+                        <div class="hero-buttons">
+                            <button class="btn-play-large" onclick="playSongById(18)"><i class="fa-solid fa-play"></i>
+                                Play Featured</button>
+                        </div>
+                        <div class="reset-button-container">
+                            <button class="reset-data-btn" onclick="resetData()">
+                                <i class="fa-solid fa-refresh"></i>
+                                Reset Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="explore-section">
+                    <div class="section-header">
+                        <h2>Recent Songs <i class="fa-solid fa-clock-rotate-left" style="color: #ffa500;"></i></h2>
+                    </div>
+                    <div class="horizontal-scroll-grid" id="recent-songs-grid">
+                        <!-- Recent tracks injected via JS -->
+                    </div>
+                </section>
+
+                <section class="explore-section">
+                    <div class="section-header">
+                        <h2>Your Top Tracks <i class="fa-solid fa-music" style="color: #1ed760;"></i></h2>
+                    </div>
+                    <div class="track-grid" id="home-track-grid">
+                        <!-- Tracks injected via JS -->
+                    </div>
+                </section>
+
+                <section class="explore-section">
+                    <div class="section-header">
+                        <h2>Top Artists <i class="fa-solid fa-fire" style="color: #ff4d4d;"></i></h2>
+                    </div>
+                    <div class="horizontal-scroll-grid artist-scroll-grid" id="top-artists-grid">
+                        <!-- Artists injected via JS -->
+                    </div>
+                </section>
+
+                <section class="explore-section">
+                    <div class="section-header">
+                        <h2>All Original Songs <i class="fa-solid fa-music" style="color: #10b981;"></i></h2>
+                    </div>
+                    <div class="track-grid" id="all-original-songs-grid">
+                        <!-- All original songs injected via JS -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- SEARCH / DISCOVER VIEW -->
+            <div id="view-search" class="view-section">
+
+                <!-- Search Bar -->
+                <section class="search-section">
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <i class="fa-solid fa-search search-icon"></i>
+                            <input type="text" id="search-input" placeholder="Search for songs, artists, or albums..." class="search-input">
+                            <button id="clear-search" class="clear-search-btn" style="display: none;">
+                                <i class="fa-solid fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="explore-section" id="discover-recommendations">
+                    <div class="section-header">
+                        <h2>Recommended For You <i class="fa-solid fa-wand-magic-sparkles" style="color: #a855f7;"></i>
+                        </h2>
+                    </div>
+                    <div class="horizontal-scroll-grid" id="recommended-grid">
+                        <!-- Tracks injected via JS -->
+                    </div>
+                </section>
+
+                <section class="explore-section" id="most-listened-section">
+                    <div class="section-header">
+                        <h2>Most Listened Songs <i class="fa-solid fa-fire" style="color: #ff6b6b;"></i></h2>
+                    </div>
+                    <div class="horizontal-scroll-grid" id="most-listened-grid">
+                        <!-- Most listened tracks injected via JS -->
+                    </div>
+                </section>
+
+                <section class="explore-section">
+                    <div class="section-header">
+                        <h2>Popular Artists <i class="fa-solid fa-star" style="color: #ffd700;"></i></h2>
+                    </div>
+                    <div class="horizontal-scroll-grid artist-scroll-grid" id="discover-artists-grid">
+                        <!-- Popular artists injected via JS -->
+                    </div>
+                </section>
+
+                <section class="explore-section">
+                    <div class="section-header">
+                        <h2>Global Hits <i class="fa-solid fa-earth-americas" style="color: #4da6ff;"></i></h2>
+                    </div>
+                    <div class="horizontal-scroll-grid" id="global-hits-grid">
+                        <!-- Tracks injected via JS -->
+                    </div>
+                </section>
+
+                <div class="section-header" style="margin-top: 40px;">
+                    <h2>All Available Songs</h2>
+                </div>
+                <div class="track-grid" id="search-results-grid">
+                    <!-- Tracks injected via JS -->
+                </div>
+            </div>
+
+            <!-- ARTISTS VIEW -->
+            <div id="view-artists" class="view-section">
+                <div class="section-header">
+                    <h2>Top Artists by Region</h2>
+                </div>
+
+                <h3 class="region-title"><i class="fa-solid fa-map-location-dot"></i> Tollywood (Telugu)</h3>
+                <div class="artist-list" id="artists-telugu"></div>
+
+                <h3 class="region-title"><i class="fa-solid fa-map-location-dot"></i> Kollywood (Tamil)</h3>
+                <div class="artist-list" id="artists-tamil"></div>
+
+                <h3 class="region-title"><i class="fa-solid fa-map-location-dot"></i> Bollywood (Hindi)</h3>
+                <div class="artist-list" id="artists-hindi"></div>
+
+                <h3 class="region-title"><i class="fa-solid fa-earth-americas"></i> Global (English)</h3>
+                <div class="artist-list" id="artists-english"></div>
+            </div>
+
+            <!-- RECENT VIEW -->
+            <div id="view-recent" class="view-section">
+                <div class="section-header">
+                    <h2>Listening History</h2>
+                    <button class="btn-outline" style="padding: 6px 16px; font-size: 14px;"
+                        onclick="clearHistory()">Clear History</button>
+                </div>
+                <div class="list-layout" id="recent-list-container">
+                    <!-- History injected via JS -->
+                </div>
+            </div>
+
+            <!-- CHARTS VIEW -->
+            <div id="view-charts" class="view-section">
+                <div class="section-header">
+                    <h2 id="chart-title">Top 100</h2>
+                </div>
+                <div id="chart-loading" class="empty-state" style="display:none;">
+                    <i class="fa-solid fa-compact-disc fa-spin"></i> Fetching live top 100 songs from official
+                    servers...
+                </div>
+                <div class="list-layout" id="chart-list-container">
+                    <!-- Chart tracks injected via JS -->
+                </div>
+            </div>
+
+            <!-- PLAYLISTS VIEW -->
+            <div id="view-playlists" class="view-section">
+                <div class="section-header">
+                    <h2>Favorites Playlist</h2>
+                </div>
+                <div class="list-layout" id="favorites-list-container">
+                    <!-- Favorites injected via JS -->
+                </div>
+            </div>
+
+            <!-- LIKED SONGS VIEW -->
+            <div id="view-liked-songs" class="view-section">
+                <div class="section-header">
+                    <h2>Liked Songs <i class="fa-solid fa-heart" style="color: #ec4899;"></i></h2>
+                    <p class="section-description" id="liked-count">0 liked songs</p>
+                </div>
+                <div class="track-grid" id="liked-songs-grid">
+                    <!-- Liked songs injected via JS -->
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Ranbidge Solutions pvtltd. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bottom Player -->
+    <div class="bottom-player glass-panel">
+        <div class="player-track-info">
+            <img src="" alt="Album Art" id="player-art" class="player-cover">
+            <div class="player-text">
+                <h4 id="player-title">Select a track</h4>
+                <p id="player-artist">-</p>
+            </div>
+            <div class="player-actions-right">
+                <button class="icon-btn heart-btn" id="favorite-btn" onclick="toggleFavorite()"><i
+                        class="fa-regular fa-heart" id="favorite-icon"></i></button>
+                <button class="icon-btn hide-player-btn" id="hide-player-btn" onclick="hidePlayer()" title="Hide Player">
+                    <i class="fa-solid fa-down-left-and-up-right-to-center"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="player-controls-container">
+            <div class="player-controls">
+                <button class="icon-btn"><i class="fa-solid fa-shuffle"></i></button>
+                <button class="icon-btn" onclick="prevSong()"><i class="fa-solid fa-backward-step"></i></button>
+                <button class="play-pause-btn" onclick="togglePlay()"><i class="fa-solid fa-play"
+                        id="play-icon"></i></button>
+                <button class="icon-btn" onclick="nextSong()"><i class="fa-solid fa-forward-step"></i></button>
+                <button class="icon-btn"><i class="fa-solid fa-repeat"></i></button>
+            </div>
+            <div class="progress-bar-container">
+                <span class="time current-time" id="current-time">0:00</span>
+                <div class="progress-bar" id="progress-container">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <span class="time total-time" id="total-time">0:00</span>
+            </div>
+        </div>
+
+        <div class="player-actions">
+            <i class="fa-solid fa-microphone"></i>
+            <i class="fa-solid fa-list"></i>
+            <i class="fa-solid fa-volume-high"></i>
+            <div class="volume-slider" id="volume-slider">
+                <div class="volume-progress" id="volume-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Show Player Button (floating) -->
+    <button class="show-player-btn" id="show-player-btn" onclick="showPlayer()" title="Show Player">
+        <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+    </button>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="login-modal">
+        <div class="login-container glass-panel">
+            <button class="close-login" onclick="closeLoginModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="login-header">
+                <i class="fa-solid fa-wave-square"></i>
+                <h2>Welcome to SAREGAMA VIBES</h2>
+                <p>Sign in to access your profile and personalized experience</p>
+            </div>
+            <form class="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="login-email"><i class="fa-solid fa-envelope"></i> Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password"><i class="fa-solid fa-lock"></i> Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember-me">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+            <div class="login-divider">
+                <span>OR</span>
+            </div>
+            <div class="social-login">
+                <button type="button" class="social-btn google-btn" onclick="socialLogin('google')">
+                    <i class="fa-brands fa-google"></i> Continue with Google
+                </button>
+                <button type="button" class="social-btn spotify-btn" onclick="socialLogin('spotify')">
+                    <i class="fa-brands fa-spotify"></i> Continue with Spotify
+                </button>
+            </div>
+            <div class="login-footer">
+                <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="profile-modal">
+        <div class="profile-container glass-panel">
+            <button class="close-profile" onclick="closeProfileModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="profile-header">
+                <div class="profile-avatar-large">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h2 id="profile-name">User Name</h2>
+                <p id="profile-email">user@email.com</p>
+            </div>
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="profile-songs">0</span>
+                    <span class="stat-label">Songs Played</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="profile-liked">0</span>
+                    <span class="stat-label">Liked Songs</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="profile-hours">0</span>
+                    <span class="stat-label">Hours Listened</span>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="profile-action-btn" onclick="editProfile()">
+                    <i class="fa-solid fa-pen"></i> Edit Profile
+                </button>
+                <button class="profile-action-btn" onclick="viewListeningHistory()">
+                    <i class="fa-solid fa-clock-rotate-left"></i> History
+                </button>
+                <button class="profile-action-btn logout-btn" onclick="logout()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube Player Container (Hidden) -->
+    <div id="youtube-player-container" style="display: none;">
+        <div id="youtube-player"></div>
+    </div>
+
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
